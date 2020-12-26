@@ -5,6 +5,8 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'org.jetbrains.kotlin.android.extensions'
+    id 'com.vanniktech.android.junit.jacoco'
+    id 'org.sonarqube'
 }
 
 android {
@@ -19,7 +21,7 @@ android {
         versionName "1.0"
 
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner "com.srk.nytimesmostpopular.NYTiesTestRunner"
+        testInstrumentationRunner "com.srk.nytimesmostpopular.NYTimesRunner"
         multiDexEnabled true
     }
 
@@ -42,6 +44,43 @@ android {
     androidExtensions {
         experimental = true
     }
+    hilt {
+        enableTransformForLocalTests = true
+    }
+
+    junitJacoco {
+        jacocoVersion = '0.8.2'
+        ignoreProjects = []
+        excludes
+        includeNoLocationClasses = false
+        includeInstrumentationCoverageInMergedReport = false
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.projectName", "NY Times Most Popular"
+            property "sonar.projectKey", "NY Times Most Popular"
+            property "sonar.tests", ["src/test/java"]
+            property "sonar.test.inclusions", "**/*Test*/**"
+            property "sonar.sourceEncoding", "UTF-8"
+            property "sonar.sources", "src/main/java"
+            property "sonar.exclusions", '**/*Test*/**,' +
+                    '*.json,' +
+                    '**/*test*/**,' +
+                    '**/.gradle/**,' +
+                    '**/R.class'
+        }
+    }
 }
 
 dependencies {
@@ -57,7 +96,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.legacy:legacy-support-v4:$legacy_support_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle_viewmodel"
     kapt "androidx.hilt:hilt-compiler:$hilt_lifecycle_viewmodel"
@@ -73,12 +112,20 @@ dependencies {
     implementation "com.intuit.sdp:sdp-android:$intuit_version"
     implementation "com.intuit.ssp:ssp-android:$intuit_version"
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
+    // Test Dependencies
     testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_test_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
     testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
     testImplementation "com.google.truth:truth:$truth_version"
+    androidTestImplementation "com.google.truth:truth:$truth_version"
+    androidTestImplementation "androidx.arch.core:core-testing:$core_testing"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_testing"
 }

@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.srk.nytimesmostpopular.R
 import com.srk.nytimesmostpopular.data.remote.model.MostPopularResult
 import com.srk.nytimesmostpopular.data.remote.repository.Repository
+import com.srk.nytimesmostpopular.utils.EspressoIdlingResource
 import com.srk.nytimesmostpopular.utils.NetworkHelper
 import com.srk.nytimesmostpopular.utils.Resource
 import com.srk.nytimesmostpopular.utils.RestConfig.Companion.API_KEY
@@ -18,14 +18,14 @@ import timber.log.Timber
 class HomeViewModel @ViewModelInject constructor(private val repository: Repository, private val networkHelper: NetworkHelper) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>().apply {
-        value = false
+        postValue(false)
     }
     val isLoading: LiveData<Boolean> = _isLoading
     private val _mostPopularResult: MutableLiveData<List<MostPopularResult>> = MutableLiveData<List<MostPopularResult>>()
     val mostPopularResult: LiveData<List<MostPopularResult>> = _mostPopularResult
     private val _errorMessage: MutableLiveData<String> = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
-    private val mostPopularResponse = repository.getMostPopular(PERIOD, API_KEY)
+    val mostPopularResponse = repository.getMostPopular(PERIOD, API_KEY)
 
     init {
         getMostPopular()
@@ -33,6 +33,7 @@ class HomeViewModel @ViewModelInject constructor(private val repository: Reposit
 
     fun getMostPopular() = viewModelScope.launch {
 
+        EspressoIdlingResource.increment()
         if (networkHelper.isNetworkConnected()) {
             mostPopularResponse.observeForever {
 
@@ -61,6 +62,18 @@ class HomeViewModel @ViewModelInject constructor(private val repository: Reposit
         }
         else
             _errorMessage.postValue("No internet connection, Try again")
+    }
+
+    fun setIsLoadingTrue() {
+        _isLoading.postValue(true)
+    }
+
+    fun setErrorValue(value: String) {
+        _errorMessage.postValue(value)
+    }
+
+    fun fakeRequestObject(mostPopularResult: MostPopularResult) {
+        _mostPopularResult.postValue(listOf(mostPopularResult))
     }
 
     override fun onCleared() {

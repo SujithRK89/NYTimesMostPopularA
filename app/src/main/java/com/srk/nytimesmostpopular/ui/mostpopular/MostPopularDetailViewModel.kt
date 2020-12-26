@@ -8,4 +8,8 @@ import com.srk.nytimesmostpopular.data.remote.model.MostPopularResult
 class MostPopularDetailViewModel @ViewModelInject constructor() : ViewModel() {
 
     val mostPopular: MutableLiveData<MostPopularResult> = MutableLiveData<MostPopularResult>()
+
+    override fun onCleared() {
+        super.onCleared()
+    }
 }

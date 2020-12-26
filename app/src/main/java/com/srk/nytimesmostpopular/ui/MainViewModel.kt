@@ -9,4 +9,8 @@ import androidx.lifecycle.ViewModel
  * Copyright (c) 2020 . All rights reserved.
  */
 class MainViewModel @ViewModelInject constructor() : ViewModel() {
+
+    override fun onCleared() {
+        super.onCleared()
+    }
 }

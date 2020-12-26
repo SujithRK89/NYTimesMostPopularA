@@ -13,4 +13,5 @@
     <string name="search">Search</string>
     <string name="retry">Retry</string>
     <string name="no_internet">No internet connection, Try again</string>
+    <string name="about_us">About Us</string>
 </resources>

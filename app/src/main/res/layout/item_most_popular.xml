@@ -41,6 +41,7 @@
                 android:layout_centerVertical="true">
 
                 <TextView
+                    android:id="@+id/tv_l_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="2"

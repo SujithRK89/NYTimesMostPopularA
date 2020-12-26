@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.srk.nytimesmostpopular.data.remote.model.MostPopularResult
 import com.srk.nytimesmostpopular.databinding.MostPopularDetailFragmentBinding
+import com.srk.nytimesmostpopular.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 @AndroidEntryPoint
 class MostPopularDetailFragment : Fragment() {
@@ -25,12 +27,14 @@ class MostPopularDetailFragment : Fragment() {
         binding = MostPopularDetailFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        viewModel.mostPopular.postValue(arguments?.getParcelable<MostPopularResult>("mostPopular") as MostPopularResult)
+        val data = arguments?.getParcelable<MostPopularResult>("mostPopular") as MostPopularResult
+        viewModel.mostPopular.postValue(data)
+        updateToolbarTitle(data)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun updateToolbarTitle(data: MostPopularResult) {
+        (activity as MainActivity).toolbar.setTitle(data.title)
     }
 
 }

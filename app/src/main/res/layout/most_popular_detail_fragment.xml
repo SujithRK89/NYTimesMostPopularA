@@ -29,10 +29,12 @@
                     android:layout_height="@dimen/_150sdp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
+                    android:src="@drawable/ic_placeholder"
                     app:mediaImage="@{viewModel.mostPopular.media[0].mediaMetadata[2].url}"
-                    app:isThumb="@{false}"/>
+                    app:isThumb="@{false}" />
 
                 <TextView
+                    android:id="@+id/tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{viewModel.mostPopular.title}"

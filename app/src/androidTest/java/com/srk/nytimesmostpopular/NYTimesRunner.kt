@@ -10,7 +10,7 @@ import dagger.hilt.android.testing.HiltTestApplication
  * Email sujithrk89@gmail.com
  * Copyright (c) 2020 . All rights reserved.
  */
-class NYTiesTestRunner: AndroidJUnitRunner() {
+class NYTimesRunner: AndroidJUnitRunner() {
 
     override fun newApplication(
         cl: ClassLoader?,
