@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="mostPopularResult"
+            type="com.srk.nytimesmostpopular.data.remote.model.MostPopularResult" />
+    </data>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_8sdp"
+        android:clipToPadding="true"
+        app:contentPadding="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_4sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:src="@drawable/ic_placeholder"
+                android:layout_centerVertical="true"
+                app:mediaImage="@{(mostPopularResult.media[0].mediaMetadata[0].url)}"
+                app:isThumb="@{true}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toEndOf="@+id/iv_icon"
+                android:layout_toStartOf="@+id/iv_arrow"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_8sdp"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    style="@style/Theme.TitleStyle"
+                    android:text="@{mostPopularResult.title}"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{mostPopularResult.byline}"
+                        android:layout_toStartOf="@+id/ll_date"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignParentEnd="true">
+
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/ic_date"
+                            android:layout_gravity="center_vertical"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{mostPopularResult.publishedDate}"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_4sdp" />
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_forward"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
